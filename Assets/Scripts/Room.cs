@@ -11,6 +11,7 @@ public struct ObjectWithCardinalDirection<T>
 
 public class Room : MonoBehaviour
 {
+    [Header("Door parameters")]
     [SerializeField]
     private string doorFrameTag = "DoorFrame";
     
@@ -20,6 +21,8 @@ public class Room : MonoBehaviour
     [SerializeField] 
     private Vector3 groundPlaneNormal = Vector3.up;
     
+    [Header("Debug")]
+    [SerializeField] 
     private List<ObjectWithCardinalDirection<Door>> doors;
 
     private void Start()

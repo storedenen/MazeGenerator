@@ -430,7 +430,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1810060860}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -7.798302, y: 1.5445838, z: -7.897432}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -452,3 +452,6 @@ MonoBehaviour:
   roomPrefab: {fileID: 4426129151433358769, guid: d44047fa4dee34e2d8092edf77f73b95,
     type: 3}
   mazeSize: {x: 10, y: 10}
+  generatorRootRoom: {x: 0, y: 0}
+  mazeRooms: []
+  maxRoomIndex: 0

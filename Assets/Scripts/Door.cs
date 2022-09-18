@@ -20,11 +20,6 @@ public class Door
         }
     }
 
-    public Door()
-    {
-        
-    }
-
     /// <summary>
     /// Initializes a new Door object.
     /// </summary>
