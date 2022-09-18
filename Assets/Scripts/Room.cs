@@ -48,7 +48,7 @@ public class Room : MonoBehaviour
         }
 
         _doors = new List<ObjectWithCardinalDirection<Door>>();
-        foreach (var (direction, gameObjects) in doorObjectsByCardinalDirections)
+        foreach ((CardinalDirections direction, Dictionary<string, GameObject> gameObjects) in doorObjectsByCardinalDirections)
         {
             GameObject doorFrame = gameObjects[_doorFrameTag];
             GameObject doorBlocker = gameObjects[_doorBlockerTag];
