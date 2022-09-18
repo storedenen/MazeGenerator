@@ -9,6 +9,7 @@ public class Vector3ExtensionsTests
     {
         // ASSIGN
         Vector3 sut = Vector3.one;
+        
         // ACT
         CardinalDirections actResult = sut.getCardinalDirectionOfVector(sut, Vector3.forward);
 
@@ -39,10 +40,12 @@ public class Vector3ExtensionsTests
     [TestCase(225f, 315f, CardinalDirections.West)]
     public void getCardinalDirectionOfChild_Should_Return_TheExpected_Direction_By_Angle(float angleFrom, float angleTo, CardinalDirections expectedDirection)
     {
+        // ASSIGN
         Vector3 sut = Vector3.forward;
         float angleStep = 1f;
         float angle = angleFrom + angleStep; // angleFrom is not included
 
+        // ACT & ASSERT
         // go through all the tests with the given step
         while (angle < angleTo)
         {

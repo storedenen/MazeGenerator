@@ -14,7 +14,7 @@ public class Rotator : MonoBehaviour
     {
         Vector3 rotateAroundVector = Quaternion.AngleAxis(90, Vector3.forward) * rotationDirection;
 
-        this.transform.Rotate(rotateAroundVector * Time.deltaTime * rotationSpeed);
+        this.transform.Rotate(rotateAroundVector * (Time.deltaTime * rotationSpeed));
     }
 
     private void OnDrawGizmos()

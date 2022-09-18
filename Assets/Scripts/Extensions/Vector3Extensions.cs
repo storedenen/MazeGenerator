@@ -10,10 +10,10 @@ public static class Vector3Extensions
     /// <param name="planeNormal">The plane to project the vectors onto and calculate the cardinal directions based on the plane.</param>
     /// <returns>
     /// The direction is calculated following the next rules:
-    /// -45-45: North
-    /// 45-135: East
-    /// 135-225: South
-    /// 225-315: West
+    /// (-45-45]: North
+    /// (45-135]: East
+    /// (135-225]: South
+    /// (225-315]: West
     /// </returns>
     public static CardinalDirections getCardinalDirectionOfVector(this Vector3 sourceVector, Vector3 targetVector, Vector3 planeNormal)
     {
