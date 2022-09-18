@@ -7,15 +7,15 @@ public class GameObjectExtensionsTests
     private static string TestTag = "EditorOnly";
 
     [Test]
-    public void getChildrenWithTag_Should_Return_When_Parent_Inactive()
+    public void GetChildrenWithTag_Should_Return_When_Parent_Inactive()
     {
         // ASSIGN
         int childCount = 5;
-        GameObject sut = getInactiveObjectWithTaggedChildren(childCount);
+        GameObject sut = GetInactiveObjectWithTaggedChildren(childCount);
         
         // ACT
-        GameObject[] dontIncludeInactiveResult = sut.getChildrenWithTag(TestTag, false);
-        GameObject[] includeInactiveResult = sut.getChildrenWithTag(TestTag, true);
+        GameObject[] dontIncludeInactiveResult = sut.GetChildrenWithTag(TestTag, false);
+        GameObject[] includeInactiveResult = sut.GetChildrenWithTag(TestTag, true);
         
         // ASSERT
         Assert.NotNull(dontIncludeInactiveResult);
@@ -24,15 +24,15 @@ public class GameObjectExtensionsTests
     }
     
     [Test]
-    public void getChildrenWithTag_Should_Return_When_Children_Inactive()
+    public void GetChildrenWithTag_Should_Return_When_Children_Inactive()
     {
         // ASSIGN
         int childCount = 5;
-        GameObject sut = getActiveObjectWithInactiveTaggedChildren(childCount);
+        GameObject sut = GetActiveObjectWithInactiveTaggedChildren(childCount);
         
         // ACT
-        GameObject[] dontIncludeInactiveResult = sut.getChildrenWithTag(TestTag, false);
-        GameObject[] includeInactiveResult = sut.getChildrenWithTag(TestTag, true);
+        GameObject[] dontIncludeInactiveResult = sut.GetChildrenWithTag(TestTag, false);
+        GameObject[] includeInactiveResult = sut.GetChildrenWithTag(TestTag, true);
         
         // ASSERT
         Assert.NotNull(dontIncludeInactiveResult);
@@ -40,7 +40,36 @@ public class GameObjectExtensionsTests
         Assert.That(includeInactiveResult, Has.Length.EqualTo(childCount));
     }
 
-    private GameObject getActiveObjectWithInactiveTaggedChildren(int childCount)
+    [Test]
+    public void GetChildrenWithTag_Should_Return_From_All_Level()
+    {
+        int levelCount = 5;
+        
+        GameObject sut = GetParentWithOneChildrenOnMultipleLevels(levelCount);
+
+        GameObject[] childrenWithTag = sut.GetChildrenWithTag(TestTag);
+        
+        Assert.That(childrenWithTag, Has.Length.EqualTo(levelCount));
+    }
+
+    private GameObject GetParentWithOneChildrenOnMultipleLevels(int levelCount)
+    {
+        GameObject parent = new GameObject("ParentObject");
+        Transform currentParent = parent.transform;
+
+        for (int levelIndex = 0; levelIndex < levelCount; levelIndex++)
+        {
+            GameObject child = new GameObject($"ChildOnLevel{levelIndex}");
+            child.transform.parent = currentParent;
+            child.tag = TestTag;
+
+            currentParent = child.transform;
+        }
+
+        return parent;
+    }
+
+    private GameObject GetActiveObjectWithInactiveTaggedChildren(int childCount)
     {
         GameObject parent = new GameObject("ParentObject");
 
@@ -58,7 +87,7 @@ public class GameObjectExtensionsTests
         return parent;
     }
     
-    private GameObject getInactiveObjectWithTaggedChildren(int childCount)
+    private GameObject GetInactiveObjectWithTaggedChildren(int childCount)
     {
         GameObject parent = new GameObject("ParentObject");
 

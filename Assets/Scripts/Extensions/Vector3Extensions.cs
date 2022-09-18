@@ -15,7 +15,7 @@ public static class Vector3Extensions
     /// (135-225]: South
     /// (225-315]: West
     /// </returns>
-    public static CardinalDirections getCardinalDirectionOfVector(this Vector3 sourceVector, Vector3 targetVector, Vector3 planeNormal)
+    public static CardinalDirections GetCardinalDirectionOfVector(this Vector3 sourceVector, Vector3 targetVector, Vector3 planeNormal)
     {
         Vector3 projectedSourceVector = Vector3.ProjectOnPlane(sourceVector, planeNormal);
         Vector3 projectedTargetVector = Vector3.ProjectOnPlane(targetVector, planeNormal);

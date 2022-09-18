@@ -11,7 +11,7 @@ public class Vector3ExtensionsTests
         Vector3 sut = Vector3.one;
         
         // ACT
-        CardinalDirections actResult = sut.getCardinalDirectionOfVector(sut, Vector3.forward);
+        CardinalDirections actResult = sut.GetCardinalDirectionOfVector(sut, Vector3.forward);
 
         // ASSERT
         Assert.AreEqual(CardinalDirections.North, actResult);
@@ -30,7 +30,7 @@ public class Vector3ExtensionsTests
         Vector3 targetVector = new Vector3(targetVectorX, targetVectorY, targetVectorZ);
 
         // ACT & ASSERT
-        Assert.AreEqual(expectedDirection, sut.getCardinalDirectionOfVector(targetVector, planeNormal));
+        Assert.AreEqual(expectedDirection, sut.GetCardinalDirectionOfVector(targetVector, planeNormal));
     }
 
     [Test]
@@ -51,7 +51,7 @@ public class Vector3ExtensionsTests
         {
             Vector3 targetVector = Quaternion.Euler(0, angle, 0) * sut;
 
-            Assert.AreEqual(expectedDirection, sut.getCardinalDirectionOfVector(targetVector, Vector3.up), $"Checking direction for angle: {angle}");
+            Assert.AreEqual(expectedDirection, sut.GetCardinalDirectionOfVector(targetVector, Vector3.up), $"Checking direction for angle: {angle}");
             
             angle += angleStep;
         } 
