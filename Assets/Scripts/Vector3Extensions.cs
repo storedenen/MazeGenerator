@@ -15,14 +15,14 @@ public static class Vector3Extensions
     /// 135-225: South
     /// 225-315: West
     /// </returns>
-    public static CardinalDirections getCardinalDirectionOfChild(this Vector3 sourceVector, Vector3 targetVector, Vector3 planeNormal)
+    public static CardinalDirections getCardinalDirectionOfVector(this Vector3 sourceVector, Vector3 targetVector, Vector3 planeNormal)
     {
         Vector3 projectedSourceVector = Vector3.ProjectOnPlane(sourceVector, planeNormal);
         Vector3 projectedTargetVector = Vector3.ProjectOnPlane(targetVector, planeNormal);
-        float angle = Vector3.Angle(projectedSourceVector, projectedTargetVector);
-        
-        int direction = Mathf.FloorToInt(Mathf.Abs((angle - 45) / 90));
-        
-        return (CardinalDirections)direction;
+        float angle = Vector3.SignedAngle(projectedSourceVector, projectedTargetVector, planeNormal) + 45;
+
+        angle += angle < 0 ? 360 : 0;
+
+        return (CardinalDirections)Mathf.FloorToInt(angle / 90);
     }
 }
