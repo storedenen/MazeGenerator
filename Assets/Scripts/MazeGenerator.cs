@@ -1,18 +1,12 @@
-using System;
 using UnityEngine;
-using Random = UnityEngine.Random;
 
 public class MazeGenerator : MonoBehaviour
 {
     [SerializeField] 
-    public GameObject roomPrefab;
+    private GameObject roomPrefab;
 
     [SerializeField] 
-    public Vector2Int mazeSize = new Vector2Int(10, 10);
-
-    private void Awake()
-    {
-    }
+    private Vector2Int mazeSize = new Vector2Int(10, 10);
 
     private void Start()
     {

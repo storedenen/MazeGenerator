@@ -1,23 +1,22 @@
 using System;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 [Serializable]
 public class Door
 {
     [SerializeField]
-    private GameObject _frame;
+    private GameObject frame;
  
     [SerializeField]
-    private GameObject _blocker;
+    private GameObject blocker;
 
     public bool DoorEnabled
     {
-        get => _frame.activeSelf;
+        get => frame.activeSelf;
         set
         {
-            _frame.SetActive(value);
-            _blocker.SetActive(false);
+            frame.SetActive(value);
+            blocker.SetActive(false);
         }
     }
 
@@ -34,8 +33,8 @@ public class Door
     /// <param name="enabled">Enables or disables the door at creation.</param>
     public Door(GameObject frame, GameObject blocker, bool enabled = true)
     {
-        this._frame = frame;
-        this._blocker = blocker;
+        this.frame = frame;
+        this.blocker = blocker;
 
         DoorEnabled = enabled;
     }

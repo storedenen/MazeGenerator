@@ -5,7 +5,7 @@ public class Vector3ExtensionsTests
 {
     // A Test behaves as an ordinary method
     [Test]
-    public void getCardinalDirectionOfChild_Should_Return_North_When_Same_Vector_Used()
+    public void GetCardinalDirectionOfChild_Should_Return_North_When_Same_Vector_Used()
     {
         // ASSIGN
         Vector3 sut = Vector3.one;
@@ -22,7 +22,7 @@ public class Vector3ExtensionsTests
     [TestCase(-1f, 0f, 0f, CardinalDirections.West)]
     [TestCase(0f, 0f, -1f, CardinalDirections.South)]
     [TestCase(0f, 0f, 1f, CardinalDirections.North)]
-    public void getCardinalDirectionOfChild_Should_Return_The_Expected_Direction(float targetVectorX, float targetVectorY, float targetVectorZ, CardinalDirections expectedDirection)
+    public void GetCardinalDirectionOfChild_Should_Return_The_Expected_Direction(float targetVectorX, float targetVectorY, float targetVectorZ, CardinalDirections expectedDirection)
     {
         // ASSIGN
         Vector3 sut = Vector3.forward;
@@ -38,7 +38,7 @@ public class Vector3ExtensionsTests
     [TestCase(45f, 135f, CardinalDirections.East)]
     [TestCase(135f, 225f, CardinalDirections.South)]
     [TestCase(225f, 315f, CardinalDirections.West)]
-    public void getCardinalDirectionOfChild_Should_Return_TheExpected_Direction_By_Angle(float angleFrom, float angleTo, CardinalDirections expectedDirection)
+    public void GetCardinalDirectionOfChild_Should_Return_TheExpected_Direction_By_Angle(float angleFrom, float angleTo, CardinalDirections expectedDirection)
     {
         // ASSIGN
         Vector3 sut = Vector3.forward;

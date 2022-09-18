@@ -4,7 +4,7 @@ using UnityEngine;
 public class GameObjectExtensionsTests
 {
     // This tag should exists also in the Unity Editor otherwise the test will fail.
-    private static string TestTag = "EditorOnly";
+    private static readonly string TestTag = "EditorOnly";
 
     [Test]
     public void GetChildrenWithTag_Should_Return_When_Parent_Inactive()
@@ -15,7 +15,7 @@ public class GameObjectExtensionsTests
         
         // ACT
         GameObject[] dontIncludeInactiveResult = sut.GetChildrenWithTag(TestTag, false);
-        GameObject[] includeInactiveResult = sut.GetChildrenWithTag(TestTag, true);
+        GameObject[] includeInactiveResult = sut.GetChildrenWithTag(TestTag);
         
         // ASSERT
         Assert.NotNull(dontIncludeInactiveResult);
@@ -32,7 +32,7 @@ public class GameObjectExtensionsTests
         
         // ACT
         GameObject[] dontIncludeInactiveResult = sut.GetChildrenWithTag(TestTag, false);
-        GameObject[] includeInactiveResult = sut.GetChildrenWithTag(TestTag, true);
+        GameObject[] includeInactiveResult = sut.GetChildrenWithTag(TestTag);
         
         // ASSERT
         Assert.NotNull(dontIncludeInactiveResult);
@@ -59,9 +59,14 @@ public class GameObjectExtensionsTests
 
         for (int levelIndex = 0; levelIndex < levelCount; levelIndex++)
         {
-            GameObject child = new GameObject($"ChildOnLevel{levelIndex}");
-            child.transform.parent = currentParent;
-            child.tag = TestTag;
+            GameObject child = new GameObject($"ChildOnLevel{levelIndex}")
+            {
+                transform =
+                {
+                    parent = currentParent
+                },
+                tag = TestTag
+            };
 
             currentParent = child.transform;
         }
@@ -75,10 +80,15 @@ public class GameObjectExtensionsTests
 
         for (int childIndex = 0; childIndex < childCount; childIndex++)
         {
-            GameObject child = new GameObject($"Child{childIndex}");
+            GameObject child = new GameObject($"Child{childIndex}")
+            {
+                transform =
+                {
+                    parent = parent.transform
+                },
+                tag = TestTag
+            };
 
-            child.transform.parent = parent.transform;
-            child.tag = TestTag;
             child.SetActive(false);
         }
         
@@ -93,10 +103,14 @@ public class GameObjectExtensionsTests
 
         for (int childIndex = 0; childIndex < childCount; childIndex++)
         {
-            GameObject child = new GameObject($"Child{childIndex}");
-
-            child.transform.parent = parent.transform;
-            child.tag = TestTag;
+            new GameObject($"Child{childIndex}")
+            {
+                transform =
+                {
+                    parent = parent.transform
+                },
+                tag = TestTag
+            };
         }
         
         parent.SetActive(false);

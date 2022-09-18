@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Rotator : MonoBehaviour
@@ -19,8 +17,9 @@ public class Rotator : MonoBehaviour
 
     private void OnDrawGizmos()
     {
-        Vector3 lineEnd = this.transform.position + rotationDirection * rotationSpeed;
+        var position = transform.position;
+        Vector3 lineEnd = position + rotationDirection * rotationSpeed;
 
-        Gizmos.DrawLine(this.transform.position, lineEnd);
+        Gizmos.DrawLine(position, lineEnd);
     }
 }
