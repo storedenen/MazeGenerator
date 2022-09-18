@@ -1,10 +1,15 @@
+using System;
 using UnityEngine;
+using UnityEngine.Serialization;
 
+[Serializable]
 public class Door
 {
-    private readonly GameObject _frame;
+    [SerializeField]
+    private GameObject _frame;
  
-    private readonly GameObject _blocker;
+    [SerializeField]
+    private GameObject _blocker;
 
     public bool DoorEnabled
     {
@@ -16,14 +21,22 @@ public class Door
         }
     }
 
+    public Door()
+    {
+        
+    }
+
     /// <summary>
     /// Initializes a new Door object.
     /// </summary>
     /// <param name="frame"></param>
     /// <param name="blocker"></param>
-    public Door(GameObject frame, GameObject blocker)
+    /// <param name="enabled">Enables or disables the door at creation.</param>
+    public Door(GameObject frame, GameObject blocker, bool enabled = true)
     {
-        _frame = frame;
-        _blocker = blocker;
+        this._frame = frame;
+        this._blocker = blocker;
+
+        DoorEnabled = enabled;
     }
 }

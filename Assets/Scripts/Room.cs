@@ -1,6 +1,14 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
+
+[Serializable]
+public struct ObjectWithCardinalDirection<T>
+{
+    public CardinalDirections cardinalDirection;
+    public T subject;
+}
 
 public class Room : MonoBehaviour
 {
@@ -10,11 +18,11 @@ public class Room : MonoBehaviour
     [SerializeField]
     private string _doorBlockerTag = "DoorBlocker";
 
-    [SerializeField] 
-    private Vector3 GroundPlaneNormal = Vector3.up;
+    [FormerlySerializedAs("groundPlaneNormal")] [FormerlySerializedAs("GroundPlaneNormal")] [SerializeField] 
+    private Vector3 _groundPlaneNormal = Vector3.up;
     
     [SerializeField] 
-    private Dictionary<CardinalDirections, Door> _doors;
+    private List<ObjectWithCardinalDirection<Door>> _doors;
 
     private void Start()
     {
@@ -23,21 +31,28 @@ public class Room : MonoBehaviour
 
     private void InitializeDoors()
     {
-        Dictionary<CardinalDirections, List<GameObject>> doorObjectsByCardinalDirections = new Dictionary<CardinalDirections, List<GameObject>>();
+        Dictionary<CardinalDirections, Dictionary<string, GameObject>> doorObjectsByCardinalDirections = new Dictionary<CardinalDirections, Dictionary<string, GameObject>>();
         
         GameObject[] _doorObjects = gameObject.GetChildrenWithTag(new HashSet<string>() {_doorBlockerTag, _doorFrameTag});
 
         foreach (GameObject frame in _doorObjects)
         {
-            // TODO: calculate the direction of the current GO's child relative to the GO's position 
-            CardinalDirections childCardinalDirection = this.transform.localPosition.GetCardinalDirectionOfVector(frame.transform.position, GroundPlaneNormal);
+            CardinalDirections childCardinalDirection = transform.forward.GetCardinalDirectionOfVector(frame.transform.position - transform.position, _groundPlaneNormal);
             
             if (!doorObjectsByCardinalDirections.ContainsKey(childCardinalDirection))
             {
-                doorObjectsByCardinalDirections.Add(childCardinalDirection, new List<GameObject>());
+                doorObjectsByCardinalDirections.Add(childCardinalDirection, new Dictionary<string, GameObject>());
             }
             
-            doorObjectsByCardinalDirections[childCardinalDirection].Add(frame);
+            doorObjectsByCardinalDirections[childCardinalDirection].Add(frame.tag, frame);
+        }
+
+        _doors = new List<ObjectWithCardinalDirection<Door>>();
+        foreach (var (direction, gameObjects) in doorObjectsByCardinalDirections)
+        {
+            GameObject doorFrame = gameObjects[_doorFrameTag];
+            GameObject doorBlocker = gameObjects[_doorBlockerTag];
+            _doors.Add(new ObjectWithCardinalDirection<Door>() {cardinalDirection = direction, subject = new Door(doorFrame, doorBlocker) });
         }
     }
 }
