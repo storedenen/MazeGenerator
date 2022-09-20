@@ -200,14 +200,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 330585543}
-  m_LocalRotation: {x: 0.29891548, y: -0, z: -0, w: 0.95427966}
-  m_LocalPosition: {x: 0, y: 6.046, z: -10}
+  m_LocalRotation: {x: 0.5, y: 0.5, z: -0.5, w: 0.5}
+  m_LocalPosition: {x: 20.6, y: 55.9, z: 48.7}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 34.785, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 90, y: 90, z: 0}
 --- !u!114 &330585547
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -451,7 +451,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   roomPrefab: {fileID: 4426129151433358769, guid: d44047fa4dee34e2d8092edf77f73b95,
     type: 3}
+  roomSize: {x: 6, y: 0, z: 10}
   mazeSize: {x: 10, y: 10}
+  generateRoomDebugTime: 1
   generatorRootRoom: {x: 0, y: 0}
   mazeRooms: []
   maxRoomIndex: 0

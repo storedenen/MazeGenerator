@@ -1,3 +1,5 @@
+using Enums;
+using Extensions;
 using NUnit.Framework;
 using UnityEngine;
 
@@ -11,18 +13,18 @@ public class Vector3ExtensionsTests
         Vector3 sut = Vector3.one;
         
         // ACT
-        CardinalDirections actResult = sut.GetCardinalDirectionOfVector(sut, Vector3.forward);
+        CardinalDirection actResult = sut.GetCardinalDirectionOfVector(sut, Vector3.forward);
 
         // ASSERT
-        Assert.AreEqual(CardinalDirections.North, actResult);
+        Assert.AreEqual(CardinalDirection.North, actResult);
     }
 
     [Test]
-    [TestCase(1f, 0f, 0f, CardinalDirections.East)]
-    [TestCase(-1f, 0f, 0f, CardinalDirections.West)]
-    [TestCase(0f, 0f, -1f, CardinalDirections.South)]
-    [TestCase(0f, 0f, 1f, CardinalDirections.North)]
-    public void GetCardinalDirectionOfChild_Should_Return_The_Expected_Direction(float targetVectorX, float targetVectorY, float targetVectorZ, CardinalDirections expectedDirection)
+    [TestCase(1f, 0f, 0f, CardinalDirection.East)]
+    [TestCase(-1f, 0f, 0f, CardinalDirection.West)]
+    [TestCase(0f, 0f, -1f, CardinalDirection.South)]
+    [TestCase(0f, 0f, 1f, CardinalDirection.North)]
+    public void GetCardinalDirectionOfChild_Should_Return_The_Expected_Direction(float targetVectorX, float targetVectorY, float targetVectorZ, CardinalDirection expectedDirection)
     {
         // ASSIGN
         Vector3 sut = Vector3.forward;
@@ -34,11 +36,11 @@ public class Vector3ExtensionsTests
     }
 
     [Test]
-    [TestCase(-45f, 45f, CardinalDirections.North)]
-    [TestCase(45f, 135f, CardinalDirections.East)]
-    [TestCase(135f, 225f, CardinalDirections.South)]
-    [TestCase(225f, 315f, CardinalDirections.West)]
-    public void GetCardinalDirectionOfChild_Should_Return_TheExpected_Direction_By_Angle(float angleFrom, float angleTo, CardinalDirections expectedDirection)
+    [TestCase(-45f, 45f, CardinalDirection.North)]
+    [TestCase(45f, 135f, CardinalDirection.East)]
+    [TestCase(135f, 225f, CardinalDirection.South)]
+    [TestCase(225f, 315f, CardinalDirection.West)]
+    public void GetCardinalDirectionOfChild_Should_Return_TheExpected_Direction_By_Angle(float angleFrom, float angleTo, CardinalDirection expectedDirection)
     {
         // ASSIGN
         Vector3 sut = Vector3.forward;

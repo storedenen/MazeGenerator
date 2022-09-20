@@ -16,7 +16,7 @@ public class Door
         set
         {
             frame.SetActive(value);
-            blocker.SetActive(false);
+            blocker.SetActive(!value);
         }
     }
 
