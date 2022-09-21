@@ -453,7 +453,7 @@ MonoBehaviour:
     type: 3}
   roomSize: {x: 6, y: 0, z: 10}
   mazeSize: {x: 10, y: 10}
-  generateRoomDebugTime: 1
+  generateRoomDebugTime: 0.1
   generatorRootRoom: {x: 0, y: 0}
   mazeRooms: []
   maxRoomIndex: 0

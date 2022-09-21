@@ -38,12 +38,12 @@ public class MazeGenerator : MonoBehaviour
     private void Start()
     {
         _usedRoomIndexes = new HashSet<int>();
-        maxRoomIndex = mazeSize.x * mazeSize.y - 1; // it starts from 0 because of the array of room indexes
+        maxRoomIndex = mazeSize.x * mazeSize.y; // it starts from 0 because of the array of room indexes
         mazeRooms = new GameObject[maxRoomIndex];
         generatorRootRoom = 
             new Vector2Int(
-                Random.Range(0, mazeSize.x - 1), 
-                Random.Range(0, mazeSize.y - 1));
+                Random.Range(0, mazeSize.x), 
+                Random.Range(0, mazeSize.y));
 
         _currentRoom = generatorRootRoom;
         _path = new Stack<Vector2Int>();
@@ -67,34 +67,55 @@ public class MazeGenerator : MonoBehaviour
         {
             // setup current room
             int currentRoomIndex = GetRoomIndex(_currentRoom);
-            GameObject currentRoomGo = Instantiate(roomPrefab, transform);
+            GameObject currentRoomGo;
+            Room room;
 
-            currentRoomGo.name = $"Room_{_currentRoom.x}_{_currentRoom.y}";
+            if (!_usedRoomIndexes.Contains(currentRoomIndex))
+            {
+                currentRoomGo = Instantiate(roomPrefab, transform);
 
-            currentRoomGo.transform.localPosition =
-                new Vector3(
-                    _currentRoom.x * roomSize.x,
-                    0,
-                    _currentRoom.y * roomSize.z);
+                currentRoomGo.name = $"Room_{_currentRoom.x}_{_currentRoom.y}";
+
+                currentRoomGo.transform.localPosition =
+                    new Vector3(
+                        _currentRoom.x * roomSize.x,
+                        0,
+                        _currentRoom.y * roomSize.z);
+                
+                // record the room
+                mazeRooms[currentRoomIndex] = currentRoomGo;
+                room = currentRoomGo.GetComponent<Room>();
+
+                // if there were any rooms before, open the door back to that room
+                if (_path.Count > 0)
+                {
+                    room.SetDoorEnabled(_path.Peek().GetCardinalDirection(), true);
+                }
+                
+                _usedRoomIndexes.Add(currentRoomIndex);
+                
+                // record the path
+                _path.Push(_currentRoom);
+            }
+            else
+            {
+                currentRoomGo = mazeRooms[currentRoomIndex];
+                room = currentRoomGo.GetComponent<Room>();
+            }
 
             // get the available neighbours
             List<Vector2Int> neighbours = GetRoomUnusedNeighbours(_currentRoom);
 
             if (neighbours.Count > 0)
             {
-                int randomNeighbourIndex = Random.Range(0, neighbours.Count - 1);
+                int randomNeighbourIndex = Random.Range(0, neighbours.Count);
                 Vector2Int nextRoom = neighbours[randomNeighbourIndex];
 
                 // open the door to the new room
-                Room room = currentRoomGo.GetComponent<Room>();
                 Vector2Int roomTarget = nextRoom - _currentRoom; 
                 room.SetDoorEnabled(roomTarget.GetCardinalDirection(), true);
-            
-                // record the path
-                _path.Push(_currentRoom);
 
                 // add it to used indexes and set the next room
-                _usedRoomIndexes.Add(currentRoomIndex);
                 _currentRoom = nextRoom;
             }
             else
@@ -108,6 +129,10 @@ public class MazeGenerator : MonoBehaviour
                     _canStepBack = false;
                 }
             }
+        }
+        else
+        {
+            Debug.Log("Process finished");
         }
     }
 
@@ -125,7 +150,7 @@ public class MazeGenerator : MonoBehaviour
 
     private List<Vector2Int> GetRoomUnusedNeighbours(Vector2Int room)
     {
-        List<Vector2Int> neighbours = new List<Vector2Int>();
+        List<Vector2Int> unusedNeighbours = new List<Vector2Int>();
 
         Vector2Int top = room + Vector2Int.up;
         Vector2Int bottom = room + Vector2Int.down;
@@ -134,25 +159,25 @@ public class MazeGenerator : MonoBehaviour
 
         if (top.y < mazeSize.y && !_usedRoomIndexes.Contains(GetRoomIndex(top)))
         {
-            neighbours.Add(top);
+            unusedNeighbours.Add(top);
         }
 
         if (bottom.y >= 0 && !_usedRoomIndexes.Contains(GetRoomIndex(bottom)))
         {
-            neighbours.Add(bottom);
+            unusedNeighbours.Add(bottom);
         }
 
         if (left.x >= 0 && !_usedRoomIndexes.Contains(GetRoomIndex(left)))
         {
-            neighbours.Add(left);
+            unusedNeighbours.Add(left);
         }
         
         if (right.x < mazeSize.y && !_usedRoomIndexes.Contains(GetRoomIndex(right)))
         {
-            neighbours.Add(right);
+            unusedNeighbours.Add(right);
         }
 
-        return neighbours;
+        return unusedNeighbours;
     }
 
     private int GetRoomIndex(Vector2Int roomCoordinates)

@@ -42,7 +42,7 @@ public class Room : MonoBehaviour
         }
     }
     
-    private void Start()
+    private void Awake()
     {
         InitializeDoors();
     }
