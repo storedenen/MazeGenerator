@@ -32,9 +32,11 @@ public class MazeGenerator : MonoBehaviour
     private Stack<Vector2Int> _path;
     private bool _canStepBack;
     private float _timeElapsedSinceRoomGenerated;
+    private Light _debugLight;
 
     private void Start()
     {
+        _debugLight = transform.GetComponentInChildren<Light>();
         _usedRoomIndexes = new HashSet<int>();
         maxRoomIndex = mazeSize.x * mazeSize.y; // it starts from 0 because of the array of room indexes
         mazeRooms = new GameObject[maxRoomIndex];
@@ -63,6 +65,13 @@ public class MazeGenerator : MonoBehaviour
         // check if we already discovered all the rooms
         if (_usedRoomIndexes.Count < maxRoomIndex && _canStepBack)
         {
+            // set the debuglight position
+            _debugLight.transform.localPosition =
+                new Vector3(
+                    _currentRoom.x * roomSize.x,
+                    2,
+                    _currentRoom.y * roomSize.z);
+            
             // setup current room
             int currentRoomIndex = GetRoomIndex(_currentRoom);
             GameObject currentRoomGo;

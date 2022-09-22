@@ -86,10 +86,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: af2b14e3fcfb248a899cd8301d41483e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _doorFrameTag: DoorFrame
-  _doorBlockerTag: DoorBlocker
-  _groundPlaneNormal: {x: 0, y: 1, z: 0}
-  _doors: []
+  doorFrameTag: DoorFrame
+  doorBlockerTag: DoorBlocker
+  groundPlaneNormal: {x: 0, y: 1, z: 0}
+  doors: []
 --- !u!1 &4426129151572181606
 GameObject:
   m_ObjectHideFlags: 0
