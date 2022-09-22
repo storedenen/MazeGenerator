@@ -39,6 +39,8 @@ public class Room : MonoBehaviour
             {
                 doors[doorIndex].subject.DoorEnabled = doorEnabled;
             }
+
+            doorIndex++;
         }
     }
     

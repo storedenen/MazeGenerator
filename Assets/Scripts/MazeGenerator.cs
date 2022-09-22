@@ -1,8 +1,6 @@
-using System;
 using System.Collections.Generic;
 using Extensions;
 using UnityEngine;
-using Random = UnityEngine.Random;
 
 public class MazeGenerator : MonoBehaviour
 {
@@ -89,7 +87,8 @@ public class MazeGenerator : MonoBehaviour
                 // if there were any rooms before, open the door back to that room
                 if (_path.Count > 0)
                 {
-                    room.SetDoorEnabled(_path.Peek().GetCardinalDirection(), true);
+                    Vector2Int roomBefore = _path.Peek();
+                    room.SetDoorEnabled((roomBefore - _currentRoom).GetCardinalDirection(), true);
                 }
                 
                 _usedRoomIndexes.Add(currentRoomIndex);

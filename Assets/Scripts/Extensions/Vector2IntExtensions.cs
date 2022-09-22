@@ -7,10 +7,12 @@ namespace Extensions
     {
         public static CardinalDirection GetCardinalDirection(this Vector2Int targetVector)
         {
-            return Vector3.zero
-                .GetCardinalDirectionOfVector(
-                    new Vector3(targetVector.x, targetVector.y),
-                    Vector3.forward);
+            Vector2 target = targetVector;
+            float angle = Vector2.SignedAngle(target, Vector2.up) + 45;
+            
+            angle += angle < 0 ? 360 : 0;
+
+            return (CardinalDirection)Mathf.FloorToInt(angle / 90);
         }
     }
 }
