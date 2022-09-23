@@ -6,4 +6,4 @@ This is a prototype of a maze generator for learning purposes. The solution is b
 
 ## How it works
 
-This solution is using Depth-First-Search to find and connect all the rooms in the grid.
+This solution uses Depth-First-Search to find and connect all the rooms in the grid.
