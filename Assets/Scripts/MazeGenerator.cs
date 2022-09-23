@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using Extensions;
 using UnityEngine;
@@ -16,7 +17,7 @@ public class MazeGenerator : MonoBehaviour
 
     [Header("Debug")] 
     [SerializeField] 
-    private float generateRoomDebugTime = 2;
+    private float generateRoomDebugTime = 1;
     
     [SerializeField] 
     private Vector2Int generatorRootRoom;
@@ -31,7 +32,6 @@ public class MazeGenerator : MonoBehaviour
     private Vector2Int _currentRoom;
     private Stack<Vector2Int> _path;
     private bool _canStepBack;
-    private float _timeElapsedSinceRoomGenerated;
     private Light _debugLight;
 
     private void Start()
@@ -48,30 +48,13 @@ public class MazeGenerator : MonoBehaviour
         _currentRoom = generatorRootRoom;
         _path = new Stack<Vector2Int>();
         _canStepBack = true;
-        _timeElapsedSinceRoomGenerated = 0;
+        StartCoroutine(CoGenerateMaze());
     }
-
-    private void Update()
+    
+    IEnumerator CoGenerateMaze()
     {
-        _timeElapsedSinceRoomGenerated += Time.deltaTime;
-
-        if (_timeElapsedSinceRoomGenerated < generateRoomDebugTime)
+        while (_usedRoomIndexes.Count < maxRoomIndex && _canStepBack)
         {
-            return;
-        }
-
-        _timeElapsedSinceRoomGenerated = 0;
-        
-        // check if we already discovered all the rooms
-        if (_usedRoomIndexes.Count < maxRoomIndex && _canStepBack)
-        {
-            // set the debuglight position
-            _debugLight.transform.localPosition =
-                new Vector3(
-                    _currentRoom.x * roomSize.x,
-                    2,
-                    _currentRoom.y * roomSize.z);
-            
             // setup current room
             int currentRoomIndex = GetRoomIndex(_currentRoom);
             GameObject currentRoomGo;
@@ -88,7 +71,7 @@ public class MazeGenerator : MonoBehaviour
                         _currentRoom.x * roomSize.x,
                         0,
                         _currentRoom.y * roomSize.z);
-                
+
                 // record the room
                 mazeRooms[currentRoomIndex] = currentRoomGo;
                 room = currentRoomGo.GetComponent<Room>();
@@ -99,9 +82,9 @@ public class MazeGenerator : MonoBehaviour
                     Vector2Int roomBefore = _path.Peek();
                     room.SetDoorEnabled((roomBefore - _currentRoom).GetCardinalDirection(), true);
                 }
-                
+
                 _usedRoomIndexes.Add(currentRoomIndex);
-                
+
                 // record the path
                 _path.Push(_currentRoom);
             }
@@ -120,7 +103,7 @@ public class MazeGenerator : MonoBehaviour
                 Vector2Int nextRoom = neighbours[randomNeighbourIndex];
 
                 // open the door to the new room
-                Vector2Int roomTarget = nextRoom - _currentRoom; 
+                Vector2Int roomTarget = nextRoom - _currentRoom;
                 room.SetDoorEnabled(roomTarget.GetCardinalDirection(), true);
 
                 // add it to used indexes and set the next room
@@ -137,23 +120,23 @@ public class MazeGenerator : MonoBehaviour
                     _canStepBack = false;
                 }
             }
+
+            yield return new WaitForSeconds(generateRoomDebugTime);
         }
-        else
-        {
-            Debug.Log("Process finished");
-        }
+
+        Debug.Log("Maze generation finished!");
+        
+        yield return null;
     }
 
-    private void OnDrawGizmos()
+    private void Update()
     {
-        Vector3 gizmoPosition = transform.TransformPoint( 
+        // set the debuglight position
+        _debugLight.transform.localPosition =
             new Vector3(
-            _currentRoom.x * roomSize.x,
-            0,
-            _currentRoom.y * roomSize.z));
-        
-        Gizmos.color = Color.red;
-        Gizmos.DrawCube(gizmoPosition, Vector3.one);
+                _currentRoom.x * roomSize.x,
+                2,
+                _currentRoom.y * roomSize.z);
     }
 
     private List<Vector2Int> GetRoomUnusedNeighbours(Vector2Int room)
