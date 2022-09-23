@@ -1,5 +1,9 @@
-# MazeGenerator
+# Maze generator
 
-Generating a maze prototype - under construction
+This is a prototype of a maze generator for learning purposes. The solution is based on this tutorial: [Original tutorial](https://www.youtube.com/watch?v=gHU5RQWbmWE).
 
-[Original tutorial](https://www.youtube.com/watch?v=gHU5RQWbmWE)
+![Maze generator example gif](MazeGenerator.gif)
+
+## How it works
+
+This solution is using Depth-First-Search to find and connect all the rooms in the grid.
